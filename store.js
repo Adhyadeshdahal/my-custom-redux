@@ -13,13 +13,15 @@ function createStore(reducer){
         //call subscriber
     };
 
-    function unSubscribe(){
-        subscribeFn= ()=>{null};
-    };
+    
 
     function subscribe(fn){
         subscribeFn.push(fn);
-        return unSubscribe;
+        return ()=>{
+           subscribeFn =[...subscribeFn.filter(lfn =>{
+                lfn!==fn;
+            })];
+        };
     }
 
     return {
