@@ -1,6 +1,6 @@
 function createStore(reducer){
     let state;
-    let subscribeFn = ()=>{null};
+    let subscribeFn =[];
 
     function getState(){
         return state;
@@ -9,7 +9,7 @@ function createStore(reducer){
     function dispatch(action){
         //call reducer
       state = [...reducer(state,action)];
-      subscribeFn();
+      subscribeFn.length?subscribeFn.map(lfn =>{lfn()}):null;
         //call subscriber
     };
 
@@ -18,7 +18,7 @@ function createStore(reducer){
     };
 
     function subscribe(fn){
-        subscribeFn=fn;
+        subscribeFn.push(fn);
         return unSubscribe;
     }
 
